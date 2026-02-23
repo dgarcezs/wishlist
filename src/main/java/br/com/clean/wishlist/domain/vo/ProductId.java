@@ -1,10 +1,12 @@
 package br.com.clean.wishlist.domain.vo;
 
+import br.com.clean.wishlist.domain.exception.BusinessException;
+
 public record ProductId(String value) {
 
   public ProductId {
     if (value == null || value.isBlank()) {
-      throw new IllegalArgumentException("Product ID cannot be null or blank");
+      throw new BusinessException("Product ID cannot be null or blank");
     }
   }
 
