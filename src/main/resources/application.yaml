@@ -3,3 +3,16 @@ server:
 spring:
   application:
     name: wishlist
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: wishlist
+      # username: ${MONGODB_USERNAME:}
+      # password: ${MONGODB_PASSWORD:}
+      # authentication-database: admin
+      # uri: mongodb://localhost:27017/wishlist
+
+wishlist:
+  validation:
+    max-products-per-wishlist: 10

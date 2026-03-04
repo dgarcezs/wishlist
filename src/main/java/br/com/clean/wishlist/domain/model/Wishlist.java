@@ -8,14 +8,20 @@ public class Wishlist {
 
   private String id;
   private String customerId;
-  private final Set<ProductId> products = new HashSet<>();
+  private Set<ProductId> products;
 
-  public Wishlist() {
-  }
+  public Wishlist() {}
 
   public Wishlist(String id, String customerId) {
     this.id = id;
     this.customerId = customerId;
+    this.products = new HashSet<>();
+  }
+
+  public Wishlist(String id, String customerId, HashSet<ProductId> products) {
+    this.id = id;
+    this.customerId = customerId;
+    this.products = products;
   }
 
   public String getId() {
@@ -37,6 +43,4 @@ public class Wishlist {
   public Set<ProductId> getProducts() {
     return products;
   }
-
-
 }

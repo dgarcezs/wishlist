@@ -1,6 +1,6 @@
 package br.com.clean.wishlist.domain.vo;
 
-import br.com.clean.wishlist.domain.exception.BusinessException;
+import br.com.clean.wishlist.application.wishlist.exception.BusinessException;
 
 public record ProductId(String value) {
 

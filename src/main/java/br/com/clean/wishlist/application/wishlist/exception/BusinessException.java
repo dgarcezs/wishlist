@@ -1,4 +1,4 @@
-package br.com.clean.wishlist.domain.exception;
+package br.com.clean.wishlist.application.wishlist.exception;
 
 public class BusinessException extends RuntimeException {
 

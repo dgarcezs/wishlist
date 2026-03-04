@@ -9,4 +9,5 @@ public interface WishlistRepository {
 
   void save(Wishlist wishlist);
 
+  void delete(Wishlist wishlist);
 }
