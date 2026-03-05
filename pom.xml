@@ -29,7 +29,10 @@
   </scm>
   <properties>
     <java.version>25</java.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <org.mapstruct.version>1.6.3</org.mapstruct.version>
+    <jacoco.version>0.8.14</jacoco.version>
+    <jacoco.coveredratio>0.40</jacoco.coveredratio>
   </properties>
   <dependencies>
     <dependency>
@@ -50,6 +53,10 @@
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-starter-logging</artifactId>
         </exclusion>
+        <exclusion>
+          <groupId>tools.jackson.core</groupId>
+          <artifactId>jackson-core</artifactId>
+        </exclusion>
       </exclusions>
     </dependency>
     <dependency>
@@ -60,6 +67,11 @@
       <groupId>com.lmax</groupId>
       <artifactId>disruptor</artifactId>
       <version>4.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>tools.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+      <version>3.1.0</version>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -79,12 +91,7 @@
 
     <dependency>
       <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-actuator-test</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-webmvc-test</artifactId>
+      <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -101,6 +108,7 @@
         <version>3.15.0</version>
         <configuration>
           <release>25</release>
+          <encoding>${project.build.sourceEncoding}</encoding>
           <annotationProcessorPaths>
             <path>
               <groupId>org.mapstruct</groupId>
@@ -109,6 +117,50 @@
             </path>
           </annotationProcessorPaths>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>${jacoco.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>report</id>
+            <phase>test</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>check</id>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <rule>
+                  <element>BUNDLE</element>
+                  <limits>
+                    <limit>
+                      <counter>INSTRUCTION</counter>
+                      <value>COVEREDRATIO</value>
+                      <minimum>${jacoco.coveredratio}</minimum>
+                    </limit>
+                  </limits>
+                </rule>
+              </rules>
+              <excludes>
+                <exclude>**/dto/**</exclude>
+                <exclude>**/config/**</exclude>
+                <exclude>**/WishlistApplication.class</exclude>
+              </excludes>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>

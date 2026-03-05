@@ -12,7 +12,11 @@ spring:
       # password: ${MONGODB_PASSWORD:}
       # authentication-database: admin
       # uri: mongodb://localhost:27017/wishlist
-
+  mvc:
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: false
 wishlist:
   validation:
     max-products-per-wishlist: 10

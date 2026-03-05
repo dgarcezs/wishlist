@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -54,6 +55,34 @@ public class GlobalExceptionHandler {
     ProblemDetailDTO problemDetailDTO =
         ProblemDetailDTO.of(
             HttpStatus.NOT_FOUND.value(), "Not Found", ex.getMessage(), getInstancePath(request));
+    LOGGER.warn(problemDetailDTO);
+
+    return ResponseEntity.badRequest().body(problemDetailDTO);
+  }
+
+  @ExceptionHandler(IllegalArgumentException.class)
+  public ResponseEntity<ProblemDetailDTO> handleIllegalArgumentException(
+      NotFoundException ex, WebRequest request) {
+    ProblemDetailDTO problemDetailDTO =
+        ProblemDetailDTO.of(
+            HttpStatus.BAD_REQUEST.value(),
+            "Illegal Argument",
+            ex.getMessage(),
+            getInstancePath(request));
+    LOGGER.warn(problemDetailDTO);
+
+    return ResponseEntity.badRequest().body(problemDetailDTO);
+  }
+
+  @ExceptionHandler(NoHandlerFoundException.class)
+  public ResponseEntity<ProblemDetailDTO> handleNoHandlerFoundException(
+      NoHandlerFoundException ex, WebRequest request) {
+    ProblemDetailDTO problemDetailDTO =
+        ProblemDetailDTO.of(
+            HttpStatus.BAD_REQUEST.value(),
+            "Invalid Request",
+            ex.getMessage(),
+            getInstancePath(request));
     LOGGER.warn(problemDetailDTO);
 
     return ResponseEntity.badRequest().body(problemDetailDTO);
