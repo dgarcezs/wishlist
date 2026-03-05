@@ -8,15 +8,9 @@ public class Wishlist {
 
   private String id;
   private String customerId;
-  private Set<ProductId> products;
+  private Set<ProductId> products = new HashSet<>();
 
   public Wishlist() {}
-
-  public Wishlist(String id, String customerId) {
-    this.id = id;
-    this.customerId = customerId;
-    this.products = new HashSet<>();
-  }
 
   public Wishlist(String id, String customerId, HashSet<ProductId> products) {
     this.id = id;
@@ -42,5 +36,13 @@ public class Wishlist {
 
   public Set<ProductId> getProducts() {
     return products;
+  }
+
+  public boolean isQtyProductsLimitReached(int makProductsPerWishlist) {
+    return products.size() >= makProductsPerWishlist;
+  }
+
+  public boolean isProductAlreadyInWishlist(ProductId productId) {
+    return products.contains(productId);
   }
 }
