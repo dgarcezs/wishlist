@@ -11,12 +11,12 @@ import static org.mockito.Mockito.when;
 
 import br.com.clean.wishlist.application.wishlist.config.WishlistConfigurationProvider;
 import br.com.clean.wishlist.application.wishlist.dto.WishlistResponseDTO;
-import br.com.clean.wishlist.application.wishlist.exception.NotFoundException;
-import br.com.clean.wishlist.application.wishlist.exception.ValidationException;
 import br.com.clean.wishlist.application.wishlist.usecase.WishlistUseCase;
-import br.com.clean.wishlist.application.wishlist.validation.WishlistErrors;
+import br.com.clean.wishlist.domain.exception.NotFoundException;
+import br.com.clean.wishlist.domain.exception.ValidationException;
 import br.com.clean.wishlist.domain.model.Wishlist;
 import br.com.clean.wishlist.domain.repository.WishlistRepository;
+import br.com.clean.wishlist.domain.validation.WishlistErrors;
 import br.com.clean.wishlist.domain.vo.ProductId;
 import java.util.HashSet;
 import java.util.Optional;

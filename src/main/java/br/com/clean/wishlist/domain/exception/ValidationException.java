@@ -1,6 +1,6 @@
-package br.com.clean.wishlist.application.wishlist.exception;
+package br.com.clean.wishlist.domain.exception;
 
-import br.com.clean.wishlist.application.wishlist.validation.ValidationResult;
+import br.com.clean.wishlist.domain.validation.ValidationResult;
 import java.util.List;
 
 public class ValidationException extends RuntimeException {

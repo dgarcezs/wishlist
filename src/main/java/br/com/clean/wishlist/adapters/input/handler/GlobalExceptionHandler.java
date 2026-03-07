@@ -2,8 +2,8 @@ package br.com.clean.wishlist.adapters.input.handler;
 
 import br.com.clean.wishlist.adapters.input.dto.ProblemDetailDTO;
 import br.com.clean.wishlist.adapters.input.dto.ValidationErrorDetailDTO;
-import br.com.clean.wishlist.application.wishlist.exception.NotFoundException;
-import br.com.clean.wishlist.application.wishlist.exception.ValidationException;
+import br.com.clean.wishlist.domain.exception.NotFoundException;
+import br.com.clean.wishlist.domain.exception.ValidationException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

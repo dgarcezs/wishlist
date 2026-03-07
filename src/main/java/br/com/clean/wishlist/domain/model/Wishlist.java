@@ -12,7 +12,7 @@ public class Wishlist {
 
   public Wishlist() {}
 
-  public Wishlist(String id, String customerId, HashSet<ProductId> products) {
+  public Wishlist(String id, String customerId, Set<ProductId> products) {
     this.id = id;
     this.customerId = customerId;
     this.products = products;

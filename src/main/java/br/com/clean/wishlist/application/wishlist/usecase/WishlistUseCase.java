@@ -1,16 +1,16 @@
 package br.com.clean.wishlist.application.wishlist.usecase;
 
-import static br.com.clean.wishlist.application.wishlist.validation.WishlistValidations.validateMaxProductsPerWishlist;
-import static br.com.clean.wishlist.application.wishlist.validation.WishlistValidations.validateUniqueProductId;
+import static br.com.clean.wishlist.domain.validation.WishlistValidations.validateMaxProductsPerWishlist;
+import static br.com.clean.wishlist.domain.validation.WishlistValidations.validateUniqueProductId;
 
 import br.com.clean.wishlist.application.wishlist.dto.WishlistResponseDTO;
-import br.com.clean.wishlist.application.wishlist.exception.NotFoundException;
-import br.com.clean.wishlist.application.wishlist.exception.ValidationException;
-import br.com.clean.wishlist.application.wishlist.validation.ValidationExecutor;
-import br.com.clean.wishlist.application.wishlist.validation.ValidationResult;
-import br.com.clean.wishlist.application.wishlist.validation.WishlistInputValidations;
+import br.com.clean.wishlist.domain.exception.NotFoundException;
+import br.com.clean.wishlist.domain.exception.ValidationException;
 import br.com.clean.wishlist.domain.model.Wishlist;
 import br.com.clean.wishlist.domain.repository.WishlistRepository;
+import br.com.clean.wishlist.domain.validation.ValidationExecutor;
+import br.com.clean.wishlist.domain.validation.ValidationResult;
+import br.com.clean.wishlist.domain.validation.WishlistInputValidations;
 import br.com.clean.wishlist.domain.vo.ProductId;
 import java.util.HashSet;
 import java.util.List;

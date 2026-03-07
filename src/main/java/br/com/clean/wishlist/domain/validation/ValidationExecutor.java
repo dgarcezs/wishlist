@@ -1,4 +1,4 @@
-package br.com.clean.wishlist.application.wishlist.validation;
+package br.com.clean.wishlist.domain.validation;
 
 import java.util.ArrayList;
 import java.util.List;

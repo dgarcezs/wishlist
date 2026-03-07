@@ -32,7 +32,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <org.mapstruct.version>1.6.3</org.mapstruct.version>
     <jacoco.version>0.8.14</jacoco.version>
-    <jacoco.coveredratio>0.40</jacoco.coveredratio>
+    <jacoco.coveredratio>0.90</jacoco.coveredratio>
   </properties>
   <dependencies>
     <dependency>
@@ -109,6 +109,7 @@
         <configuration>
           <release>25</release>
           <encoding>${project.build.sourceEncoding}</encoding>
+          <generatedSourcesDirectory>${project.build.directory}/generated-sources/mapstruct</generatedSourcesDirectory>
           <annotationProcessorPaths>
             <path>
               <groupId>org.mapstruct</groupId>
@@ -122,6 +123,15 @@
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
         <version>${jacoco.version}</version>
+        <configuration>
+          <excludes>
+            <exclude>**/dto/**</exclude>
+            <exclude>**/config/**</exclude>
+            <exclude>**/WishlistApplication*</exclude>
+            <exclude>**/adapters/output/persistence/mongodb/*MapperImpl*</exclude>
+            <exclude>**/adapters/output/persistence/mongodb/*Document*</exclude>
+          </excludes>
+        </configuration>
         <executions>
           <execution>
             <goals>
@@ -153,11 +163,6 @@
                   </limits>
                 </rule>
               </rules>
-              <excludes>
-                <exclude>**/dto/**</exclude>
-                <exclude>**/config/**</exclude>
-                <exclude>**/WishlistApplication.class</exclude>
-              </excludes>
             </configuration>
           </execution>
         </executions>

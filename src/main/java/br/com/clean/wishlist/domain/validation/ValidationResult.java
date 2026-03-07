@@ -1,4 +1,4 @@
-package br.com.clean.wishlist.application.wishlist.validation;
+package br.com.clean.wishlist.domain.validation;
 
 public record ValidationResult(int errorCode, String formattedMessage, boolean fatal) {
 
