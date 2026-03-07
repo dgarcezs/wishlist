@@ -13,13 +13,12 @@ class WishlistTest {
   private Wishlist wishlist;
   private String id;
   private String customerId;
-  private Set<ProductId> products;
 
   @BeforeEach
   void setUp() {
     id = "wishlist-123";
     customerId = "customer-456";
-    products = new HashSet<>();
+    Set<ProductId> products = new HashSet<>();
     products.add(new ProductId("product-1"));
     products.add(new ProductId("product-2"));
 

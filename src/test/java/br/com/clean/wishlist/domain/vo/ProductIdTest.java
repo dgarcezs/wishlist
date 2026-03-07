@@ -3,7 +3,7 @@ package br.com.clean.wishlist.domain.vo;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import br.com.clean.wishlist.application.wishlist.exception.BusinessException;
+import br.com.clean.wishlist.domain.exception.BusinessException;
 import org.junit.jupiter.api.Test;
 
 class ProductIdTest {

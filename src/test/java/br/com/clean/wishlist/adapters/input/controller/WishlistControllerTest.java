@@ -11,11 +11,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import br.com.clean.wishlist.adapters.input.handler.GlobalExceptionHandler;
 import br.com.clean.wishlist.application.wishlist.dto.WishlistResponseDTO;
-import br.com.clean.wishlist.application.wishlist.exception.NotFoundException;
-import br.com.clean.wishlist.application.wishlist.exception.ValidationException;
 import br.com.clean.wishlist.application.wishlist.usecase.WishlistUseCase;
-import br.com.clean.wishlist.application.wishlist.validation.ValidationResult;
-import br.com.clean.wishlist.application.wishlist.validation.WishlistErrors;
+import br.com.clean.wishlist.domain.exception.NotFoundException;
+import br.com.clean.wishlist.domain.exception.ValidationException;
+import br.com.clean.wishlist.domain.validation.ValidationResult;
+import br.com.clean.wishlist.domain.validation.WishlistErrors;
 import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
