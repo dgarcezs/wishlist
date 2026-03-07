@@ -1,4 +1,4 @@
-package br.com.clean.wishlist.application.wishlist.exception;
+package br.com.clean.wishlist.domain.exception;
 
 public class NotFoundException extends RuntimeException {
   public NotFoundException(String message) {

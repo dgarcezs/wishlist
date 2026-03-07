@@ -1,8 +1,7 @@
-package br.com.clean.wishlist.infrastructure.config;
+package br.com.clean.wishlist.application.wishlist.config;
 
 import br.com.clean.wishlist.adapters.output.persistence.mongodb.WishlistConfigurationProviderMongoDB;
 import br.com.clean.wishlist.adapters.output.persistence.mongodb.WishlistConfigurationSpringDataMongoDB;
-import br.com.clean.wishlist.application.wishlist.config.WishlistConfigurationProvider;
 import br.com.clean.wishlist.application.wishlist.usecase.WishlistUseCase;
 import br.com.clean.wishlist.domain.repository.WishlistRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,9 +13,11 @@ import org.springframework.context.annotation.Primary;
 public class WishlistConfig {
 
   @Bean
-  public WishlistUseCase wishlistUseCase(WishlistRepository wishlistRepository,
+  public WishlistUseCase wishlistUseCase(
+      WishlistRepository wishlistRepository,
       WishlistConfigurationProvider wishlistConfigurationProvider) {
-    return new WishlistUseCase(wishlistRepository, wishlistConfigurationProvider.getMaxProductsPerWishlist());
+    return new WishlistUseCase(
+        wishlistRepository, wishlistConfigurationProvider.getMaxProductsPerWishlist());
   }
 
   @Bean
@@ -24,7 +25,7 @@ public class WishlistConfig {
   public WishlistConfigurationProvider wishlistConfigurationProvider(
       WishlistConfigurationSpringDataMongoDB wishlistConfigurationSpringDataMongoDB,
       @Value("${wishlist.validation.max-products-per-wishlist}") int defaultMaxProductPerWishlist) {
-    return new WishlistConfigurationProviderMongoDB(wishlistConfigurationSpringDataMongoDB,
-        defaultMaxProductPerWishlist);
+    return new WishlistConfigurationProviderMongoDB(
+        wishlistConfigurationSpringDataMongoDB, defaultMaxProductPerWishlist);
   }
 }
