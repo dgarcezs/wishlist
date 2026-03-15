@@ -1,9 +1,10 @@
-package br.com.clean.wishlist.application.wishlist.usecase;
+package br.com.clean.wishlist.application.wishlist.service.core;
 
 import static br.com.clean.wishlist.domain.validation.WishlistValidations.validateMaxProductsPerWishlist;
 import static br.com.clean.wishlist.domain.validation.WishlistValidations.validateUniqueProductId;
 
 import br.com.clean.wishlist.application.wishlist.dto.WishlistResponseDTO;
+import br.com.clean.wishlist.application.wishlist.service.*;
 import br.com.clean.wishlist.domain.exception.NotFoundException;
 import br.com.clean.wishlist.domain.exception.ValidationException;
 import br.com.clean.wishlist.domain.model.Wishlist;
@@ -16,13 +17,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class WishlistUseCase {
+public class DefaultWishlistService implements WishlistService {
 
   private static final ValidationExecutor wishListValidator = new ValidationExecutor();
   private final WishlistRepository wishlistRepository;
   private final int maxProductsPerWishlist;
 
-  public WishlistUseCase(WishlistRepository wishlistRepository, int maxProductsPerWishlist) {
+  public DefaultWishlistService(WishlistRepository wishlistRepository, int maxProductsPerWishlist) {
     this.wishlistRepository = wishlistRepository;
     this.maxProductsPerWishlist = maxProductsPerWishlist;
   }

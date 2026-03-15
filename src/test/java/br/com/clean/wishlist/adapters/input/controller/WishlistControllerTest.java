@@ -11,7 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import br.com.clean.wishlist.adapters.input.handler.GlobalExceptionHandler;
 import br.com.clean.wishlist.application.wishlist.dto.WishlistResponseDTO;
-import br.com.clean.wishlist.application.wishlist.usecase.WishlistUseCase;
+import br.com.clean.wishlist.application.wishlist.service.WishlistService;
 import br.com.clean.wishlist.domain.exception.NotFoundException;
 import br.com.clean.wishlist.domain.exception.ValidationException;
 import br.com.clean.wishlist.domain.validation.ValidationResult;
@@ -30,7 +30,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 @ExtendWith(MockitoExtension.class)
 class WishlistControllerTest {
 
-  @Mock private WishlistUseCase wishlistUseCase;
+  @Mock private WishlistService wishlistService;
   @InjectMocks private WishlistController wishlistController;
 
   private MockMvc mockMvc;
@@ -50,7 +50,7 @@ class WishlistControllerTest {
   @Test
   void getWishlist_WhenValidCustomerId_ShouldReturnWishlist() throws Exception {
     WishlistResponseDTO responseDTO = new WishlistResponseDTO(CUSTOMER_ID, PRODUCTS);
-    when(wishlistUseCase.getWishlist(CUSTOMER_ID)).thenReturn(responseDTO);
+    when(wishlistService.getWishlist(CUSTOMER_ID)).thenReturn(responseDTO);
 
     mockMvc
         .perform(get("/api/wishlists/{customerId}", CUSTOMER_ID))
@@ -63,7 +63,7 @@ class WishlistControllerTest {
 
   @Test
   void getWishlist_WhenWishlistNotFound_ShouldReturnNotFound() throws Exception {
-    when(wishlistUseCase.getWishlist(CUSTOMER_ID))
+    when(wishlistService.getWishlist(CUSTOMER_ID))
         .thenThrow(new NotFoundException("Wishlist not found."));
 
     mockMvc
@@ -76,7 +76,7 @@ class WishlistControllerTest {
 
   @Test
   void addProductToWishlist_WhenSuccess_ShouldReturnCreated() throws Exception {
-    doNothing().when(wishlistUseCase).addProduct(CUSTOMER_ID, PRODUCT_ID);
+    doNothing().when(wishlistService).addProduct(CUSTOMER_ID, PRODUCT_ID);
 
     mockMvc
         .perform(post("/api/wishlists/{customerId}/products/{productId}", CUSTOMER_ID, PRODUCT_ID))
@@ -88,7 +88,7 @@ class WishlistControllerTest {
     List<ValidationResult> validations = List.of(WishlistErrors.productIdAlreadyExists());
 
     doThrow(new ValidationException(validations))
-        .when(wishlistUseCase)
+        .when(wishlistService)
         .addProduct(CUSTOMER_ID, PRODUCT_ID);
 
     mockMvc
@@ -101,7 +101,7 @@ class WishlistControllerTest {
 
   @Test
   void removeProductFromWishlist_WhenSuccess_ShouldReturnNoContent() throws Exception {
-    doNothing().when(wishlistUseCase).removeProduct(CUSTOMER_ID, PRODUCT_ID);
+    doNothing().when(wishlistService).removeProduct(CUSTOMER_ID, PRODUCT_ID);
 
     mockMvc
         .perform(
@@ -112,7 +112,7 @@ class WishlistControllerTest {
   @Test
   void removeProductFromWishlist_WhenWishlistNotFound_ShouldReturnNotFound() throws Exception {
     doThrow(new NotFoundException("Wishlist not found."))
-        .when(wishlistUseCase)
+        .when(wishlistService)
         .removeProduct(CUSTOMER_ID, PRODUCT_ID);
 
     mockMvc
@@ -127,7 +127,7 @@ class WishlistControllerTest {
   @Test
   void removeProductFromWishlist_WhenProductNotFound_ShouldReturnNotFound() throws Exception {
     doThrow(new NotFoundException("Product not found in wishlist."))
-        .when(wishlistUseCase)
+        .when(wishlistService)
         .removeProduct(CUSTOMER_ID, PRODUCT_ID);
 
     mockMvc
@@ -141,7 +141,7 @@ class WishlistControllerTest {
 
   @Test
   void removeWishlist_WhenSuccess_ShouldReturnNoContent() throws Exception {
-    doNothing().when(wishlistUseCase).removeWishlist(CUSTOMER_ID);
+    doNothing().when(wishlistService).removeWishlist(CUSTOMER_ID);
 
     mockMvc
         .perform(delete("/api/wishlists/{customerId}", CUSTOMER_ID))

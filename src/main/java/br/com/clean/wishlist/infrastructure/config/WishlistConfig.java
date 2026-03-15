@@ -1,8 +1,9 @@
-package br.com.clean.wishlist.application.wishlist.config;
+package br.com.clean.wishlist.infrastructure.config;
 
 import br.com.clean.wishlist.adapters.output.persistence.mongodb.WishlistConfigurationProviderMongoDB;
 import br.com.clean.wishlist.adapters.output.persistence.mongodb.WishlistConfigurationSpringDataMongoDB;
-import br.com.clean.wishlist.application.wishlist.usecase.WishlistUseCase;
+import br.com.clean.wishlist.application.wishlist.service.*;
+import br.com.clean.wishlist.application.wishlist.service.core.*;
 import br.com.clean.wishlist.domain.repository.WishlistRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -13,10 +14,10 @@ import org.springframework.context.annotation.Primary;
 public class WishlistConfig {
 
   @Bean
-  public WishlistUseCase wishlistUseCase(
+  public WishlistService wishlistService(
       WishlistRepository wishlistRepository,
       WishlistConfigurationProvider wishlistConfigurationProvider) {
-    return new WishlistUseCase(
+    return new DefaultWishlistService(
         wishlistRepository, wishlistConfigurationProvider.getMaxProductsPerWishlist());
   }
 

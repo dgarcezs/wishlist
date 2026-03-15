@@ -1,4 +1,4 @@
-package br.com.clean.wishlist.application.wishlist.config;
+package br.com.clean.wishlist.infrastructure.config;
 
 public interface WishlistConfigurationProvider {
 
