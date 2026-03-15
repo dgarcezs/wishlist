@@ -1,6 +1,6 @@
 package br.com.clean.wishlist.adapters.output.persistence.mongodb;
 
-import br.com.clean.wishlist.application.wishlist.config.WishlistConfigurationProvider;
+import br.com.clean.wishlist.infrastructure.config.WishlistConfigurationProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;

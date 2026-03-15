@@ -2,7 +2,7 @@ package br.com.clean.wishlist.adapters.input.controller;
 
 import br.com.clean.wishlist.adapters.input.dto.RestResponseDTO;
 import br.com.clean.wishlist.application.wishlist.dto.WishlistResponseDTO;
-import br.com.clean.wishlist.application.wishlist.usecase.WishlistUseCase;
+import br.com.clean.wishlist.application.wishlist.service.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,17 +16,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/wishlists")
 public class WishlistController {
 
-  private final WishlistUseCase wishlistUseCase;
+  private final WishlistService wishlistService;
 
-  public WishlistController(WishlistUseCase wishlistUseCase) {
-    this.wishlistUseCase = wishlistUseCase;
+  public WishlistController(WishlistService wishlistService) {
+    this.wishlistService = wishlistService;
   }
 
   @GetMapping("/{customerId}")
   public ResponseEntity<RestResponseDTO<WishlistResponseDTO>> getWishlist(
       @PathVariable String customerId) {
 
-    WishlistResponseDTO wishlistResponseDTO = wishlistUseCase.getWishlist(customerId);
+    WishlistResponseDTO wishlistResponseDTO = wishlistService.getWishlist(customerId);
 
     RestResponseDTO<WishlistResponseDTO> restResponseDTO =
         new RestResponseDTO<>(wishlistResponseDTO, "Success", HttpStatus.OK.value());
@@ -37,20 +37,20 @@ public class WishlistController {
   @PostMapping("/{customerId}/products/{productId}")
   public ResponseEntity<Void> addProductToWishlist(
       @PathVariable String customerId, @PathVariable String productId) {
-    wishlistUseCase.addProduct(customerId, productId);
+    wishlistService.addProduct(customerId, productId);
     return ResponseEntity.status(HttpStatus.CREATED).build();
   }
 
   @DeleteMapping("/{customerId}/products/{productId}")
   public ResponseEntity<Void> removeProductFromWishlist(
       @PathVariable String customerId, @PathVariable String productId) {
-    wishlistUseCase.removeProduct(customerId, productId);
+    wishlistService.removeProduct(customerId, productId);
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 
   @DeleteMapping("/{customerId}")
   public ResponseEntity<Void> removeWishlist(@PathVariable String customerId) {
-    wishlistUseCase.removeWishlist(customerId);
+    wishlistService.removeWishlist(customerId);
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 }

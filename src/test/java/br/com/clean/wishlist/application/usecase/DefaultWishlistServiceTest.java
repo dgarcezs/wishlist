@@ -9,15 +9,15 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import br.com.clean.wishlist.application.wishlist.config.WishlistConfigurationProvider;
 import br.com.clean.wishlist.application.wishlist.dto.WishlistResponseDTO;
-import br.com.clean.wishlist.application.wishlist.usecase.WishlistUseCase;
+import br.com.clean.wishlist.application.wishlist.service.core.DefaultWishlistService;
 import br.com.clean.wishlist.domain.exception.NotFoundException;
 import br.com.clean.wishlist.domain.exception.ValidationException;
 import br.com.clean.wishlist.domain.model.Wishlist;
 import br.com.clean.wishlist.domain.repository.WishlistRepository;
 import br.com.clean.wishlist.domain.validation.WishlistErrors;
 import br.com.clean.wishlist.domain.vo.ProductId;
+import br.com.clean.wishlist.infrastructure.config.WishlistConfigurationProvider;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -28,11 +28,11 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class WishlistUseCaseTest {
+public class DefaultWishlistServiceTest {
 
   private WishlistRepository wishlistRepository;
   private WishlistConfigurationProvider wishlistConfigurationProvider;
-  private WishlistUseCase wishlistUseCase;
+  private DefaultWishlistService defaultWishlistService;
 
   private final String ID = "id_1";
   private final String CUSTOMER_ID = "1";
@@ -63,11 +63,11 @@ public class WishlistUseCaseTest {
     when(wishlistConfigurationProvider.getMaxProductsPerWishlist()).thenReturn(6);
     when(wishlistRepository.findByCustomerId(any())).thenReturn(Optional.of(wishlist));
 
-    wishlistUseCase =
-        new WishlistUseCase(
+    defaultWishlistService =
+        new DefaultWishlistService(
             wishlistRepository, wishlistConfigurationProvider.getMaxProductsPerWishlist());
 
-    WishlistResponseDTO wishlistResponseDTO = wishlistUseCase.getWishlist(CUSTOMER_ID);
+    WishlistResponseDTO wishlistResponseDTO = defaultWishlistService.getWishlist(CUSTOMER_ID);
 
     assertThat(wishlistResponseDTO).isNotNull();
     assertThat(wishlistResponseDTO.getCustomerId()).isEqualTo(CUSTOMER_ID);
@@ -94,12 +94,13 @@ public class WishlistUseCaseTest {
     when(wishlistConfigurationProvider.getMaxProductsPerWishlist()).thenReturn(6);
     when(wishlistRepository.findByCustomerId(any())).thenReturn(Optional.of(wishlist));
 
-    wishlistUseCase =
-        new WishlistUseCase(
+    defaultWishlistService =
+        new DefaultWishlistService(
             wishlistRepository, wishlistConfigurationProvider.getMaxProductsPerWishlist());
 
     IllegalArgumentException exception =
-        assertThrows(IllegalArgumentException.class, () -> wishlistUseCase.getWishlist(customerId));
+        assertThrows(
+            IllegalArgumentException.class, () -> defaultWishlistService.getWishlist(customerId));
 
     assertThat(exception.getMessage()).isEqualTo(expectedMessage);
   }
@@ -120,12 +121,13 @@ public class WishlistUseCaseTest {
     when(wishlistConfigurationProvider.getMaxProductsPerWishlist()).thenReturn(6);
     when(wishlistRepository.findByCustomerId(CUSTOMER_ID)).thenReturn(Optional.of(wishlist));
 
-    wishlistUseCase =
-        new WishlistUseCase(
+    defaultWishlistService =
+        new DefaultWishlistService(
             wishlistRepository, wishlistConfigurationProvider.getMaxProductsPerWishlist());
 
     NotFoundException exception =
-        assertThrows(NotFoundException.class, () -> wishlistUseCase.getWishlist(OTHER_CUSTOMER_ID));
+        assertThrows(
+            NotFoundException.class, () -> defaultWishlistService.getWishlist(OTHER_CUSTOMER_ID));
 
     assertThat(exception.getMessage()).isEqualTo("Wishlist not found.");
   }
@@ -139,11 +141,11 @@ public class WishlistUseCaseTest {
     when(wishlistConfigurationProvider.getMaxProductsPerWishlist()).thenReturn(6);
     when(wishlistRepository.findByCustomerId(any())).thenReturn(Optional.of(wishlist));
 
-    wishlistUseCase =
-        new WishlistUseCase(
+    defaultWishlistService =
+        new DefaultWishlistService(
             wishlistRepository, wishlistConfigurationProvider.getMaxProductsPerWishlist());
 
-    wishlistUseCase.addProduct(CUSTOMER_ID, PRODUCT_ID_100);
+    defaultWishlistService.addProduct(CUSTOMER_ID, PRODUCT_ID_100);
 
     assertTrue(products.contains(new ProductId(PRODUCT_ID_100)));
     verify(wishlistRepository).save(wishlist);
@@ -160,14 +162,14 @@ public class WishlistUseCaseTest {
     when(wishlistConfigurationProvider.getMaxProductsPerWishlist()).thenReturn(6);
     when(wishlistRepository.findByCustomerId(any())).thenReturn(Optional.of(wishlist));
 
-    wishlistUseCase =
-        new WishlistUseCase(
+    defaultWishlistService =
+        new DefaultWishlistService(
             wishlistRepository, wishlistConfigurationProvider.getMaxProductsPerWishlist());
 
     IllegalArgumentException exception =
         assertThrows(
             IllegalArgumentException.class,
-            () -> wishlistUseCase.addProduct(customerId, productId));
+            () -> defaultWishlistService.addProduct(customerId, productId));
     assertThat(expectedMessage).isEqualTo(exception.getMessage());
   }
 
@@ -177,11 +179,11 @@ public class WishlistUseCaseTest {
     when(wishlistConfigurationProvider.getMaxProductsPerWishlist()).thenReturn(6);
     when(wishlistRepository.findByCustomerId(any())).thenReturn(Optional.empty());
 
-    wishlistUseCase =
-        new WishlistUseCase(
+    defaultWishlistService =
+        new DefaultWishlistService(
             wishlistRepository, wishlistConfigurationProvider.getMaxProductsPerWishlist());
 
-    wishlistUseCase.addProduct(CUSTOMER_ID, PRODUCT_ID_100);
+    defaultWishlistService.addProduct(CUSTOMER_ID, PRODUCT_ID_100);
 
     verify(wishlistRepository)
         .save(
@@ -207,14 +209,14 @@ public class WishlistUseCaseTest {
     when(wishlistConfigurationProvider.getMaxProductsPerWishlist()).thenReturn(6);
     when(wishlistRepository.findByCustomerId(any())).thenReturn(Optional.of(wishlist));
 
-    wishlistUseCase =
-        new WishlistUseCase(
+    defaultWishlistService =
+        new DefaultWishlistService(
             wishlistRepository, wishlistConfigurationProvider.getMaxProductsPerWishlist());
 
     ValidationException exception =
         assertThrows(
             ValidationException.class,
-            () -> wishlistUseCase.addProduct(CUSTOMER_ID, PRODUCT_ID_100));
+            () -> defaultWishlistService.addProduct(CUSTOMER_ID, PRODUCT_ID_100));
     assertTrue(exception.getValidationResults().contains(WishlistErrors.productIdAlreadyExists()));
   }
 
@@ -233,14 +235,14 @@ public class WishlistUseCaseTest {
         .thenReturn(maxProductsPerWishlist);
     when(wishlistRepository.findByCustomerId(any())).thenReturn(Optional.of(wishlist));
 
-    wishlistUseCase =
-        new WishlistUseCase(
+    defaultWishlistService =
+        new DefaultWishlistService(
             wishlistRepository, wishlistConfigurationProvider.getMaxProductsPerWishlist());
 
     ValidationException exception =
         assertThrows(
             ValidationException.class,
-            () -> wishlistUseCase.addProduct(CUSTOMER_ID, PRODUCT_ID_102));
+            () -> defaultWishlistService.addProduct(CUSTOMER_ID, PRODUCT_ID_102));
     assertTrue(
         exception
             .getValidationResults()
@@ -263,11 +265,11 @@ public class WishlistUseCaseTest {
     when(wishlistConfigurationProvider.getMaxProductsPerWishlist()).thenReturn(6);
     when(wishlistRepository.findByCustomerId(any())).thenReturn(Optional.of(wishlist));
 
-    wishlistUseCase =
-        new WishlistUseCase(
+    defaultWishlistService =
+        new DefaultWishlistService(
             wishlistRepository, wishlistConfigurationProvider.getMaxProductsPerWishlist());
 
-    wishlistUseCase.removeProduct(CUSTOMER_ID, PRODUCT_ID_100);
+    defaultWishlistService.removeProduct(CUSTOMER_ID, PRODUCT_ID_100);
 
     verify(wishlistRepository).save(wishlist);
   }
@@ -290,14 +292,14 @@ public class WishlistUseCaseTest {
     when(wishlistConfigurationProvider.getMaxProductsPerWishlist()).thenReturn(6);
     when(wishlistRepository.findByCustomerId(any())).thenReturn(Optional.of(wishlist));
 
-    wishlistUseCase =
-        new WishlistUseCase(
+    defaultWishlistService =
+        new DefaultWishlistService(
             wishlistRepository, wishlistConfigurationProvider.getMaxProductsPerWishlist());
 
     IllegalArgumentException exception =
         assertThrows(
             IllegalArgumentException.class,
-            () -> wishlistUseCase.removeProduct(customerId, productId));
+            () -> defaultWishlistService.removeProduct(customerId, productId));
     assertThat(expectedMessage).isEqualTo(exception.getMessage());
   }
 
@@ -310,11 +312,11 @@ public class WishlistUseCaseTest {
     when(wishlistConfigurationProvider.getMaxProductsPerWishlist()).thenReturn(6);
     when(wishlistRepository.findByCustomerId(any())).thenReturn(Optional.of(wishlist));
 
-    wishlistUseCase =
-        new WishlistUseCase(
+    defaultWishlistService =
+        new DefaultWishlistService(
             wishlistRepository, wishlistConfigurationProvider.getMaxProductsPerWishlist());
 
-    wishlistUseCase.removeProduct(CUSTOMER_ID, PRODUCT_ID_100);
+    defaultWishlistService.removeProduct(CUSTOMER_ID, PRODUCT_ID_100);
 
     verify(wishlistRepository).delete(wishlist);
   }
@@ -331,14 +333,14 @@ public class WishlistUseCaseTest {
     when(wishlistConfigurationProvider.getMaxProductsPerWishlist()).thenReturn(6);
     when(wishlistRepository.findByCustomerId(any())).thenReturn(Optional.of(wishlist));
 
-    wishlistUseCase =
-        new WishlistUseCase(
+    defaultWishlistService =
+        new DefaultWishlistService(
             wishlistRepository, wishlistConfigurationProvider.getMaxProductsPerWishlist());
 
     NotFoundException exception =
         assertThrows(
             NotFoundException.class,
-            () -> wishlistUseCase.removeProduct(CUSTOMER_ID, PRODUCT_ID_100));
+            () -> defaultWishlistService.removeProduct(CUSTOMER_ID, PRODUCT_ID_100));
     assertTrue(exception.getMessage().contains("Product not found in wishlist."));
   }
 
@@ -354,14 +356,14 @@ public class WishlistUseCaseTest {
     when(wishlistConfigurationProvider.getMaxProductsPerWishlist()).thenReturn(6);
     when(wishlistRepository.findByCustomerId(CUSTOMER_ID)).thenReturn(Optional.of(wishlist));
 
-    wishlistUseCase =
-        new WishlistUseCase(
+    defaultWishlistService =
+        new DefaultWishlistService(
             wishlistRepository, wishlistConfigurationProvider.getMaxProductsPerWishlist());
 
     NotFoundException exception =
         assertThrows(
             NotFoundException.class,
-            () -> wishlistUseCase.removeProduct(OTHER_CUSTOMER_ID, PRODUCT_ID_100));
+            () -> defaultWishlistService.removeProduct(OTHER_CUSTOMER_ID, PRODUCT_ID_100));
     assertTrue(exception.getMessage().contains("Wishlist not found."));
   }
 
@@ -374,11 +376,11 @@ public class WishlistUseCaseTest {
     when(wishlistConfigurationProvider.getMaxProductsPerWishlist()).thenReturn(6);
     when(wishlistRepository.findByCustomerId(CUSTOMER_ID)).thenReturn(Optional.of(wishlist));
 
-    wishlistUseCase =
-        new WishlistUseCase(
+    defaultWishlistService =
+        new DefaultWishlistService(
             wishlistRepository, wishlistConfigurationProvider.getMaxProductsPerWishlist());
 
-    wishlistUseCase.removeWishlist(CUSTOMER_ID);
+    defaultWishlistService.removeWishlist(CUSTOMER_ID);
     verify(wishlistRepository).delete(wishlist);
   }
 
@@ -393,13 +395,14 @@ public class WishlistUseCaseTest {
     when(wishlistConfigurationProvider.getMaxProductsPerWishlist()).thenReturn(6);
     when(wishlistRepository.findByCustomerId(CUSTOMER_ID)).thenReturn(Optional.of(wishlist));
 
-    wishlistUseCase =
-        new WishlistUseCase(
+    defaultWishlistService =
+        new DefaultWishlistService(
             wishlistRepository, wishlistConfigurationProvider.getMaxProductsPerWishlist());
 
     IllegalArgumentException exception =
         assertThrows(
-            IllegalArgumentException.class, () -> wishlistUseCase.removeWishlist(customerId));
+            IllegalArgumentException.class,
+            () -> defaultWishlistService.removeWishlist(customerId));
     assertThat(expectedMessage).isEqualTo(exception.getMessage());
   }
 
@@ -412,13 +415,14 @@ public class WishlistUseCaseTest {
     when(wishlistConfigurationProvider.getMaxProductsPerWishlist()).thenReturn(6);
     when(wishlistRepository.findByCustomerId(CUSTOMER_ID)).thenReturn(Optional.of(wishlist));
 
-    wishlistUseCase =
-        new WishlistUseCase(
+    defaultWishlistService =
+        new DefaultWishlistService(
             wishlistRepository, wishlistConfigurationProvider.getMaxProductsPerWishlist());
 
     NotFoundException exception =
         assertThrows(
-            NotFoundException.class, () -> wishlistUseCase.removeWishlist(OTHER_CUSTOMER_ID));
+            NotFoundException.class,
+            () -> defaultWishlistService.removeWishlist(OTHER_CUSTOMER_ID));
     assertTrue(exception.getMessage().contains("Wishlist not found."));
   }
 
