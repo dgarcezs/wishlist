@@ -11,7 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import br.com.clean.wishlist.adapters.input.handler.GlobalExceptionHandler;
 import br.com.clean.wishlist.application.wishlist.dto.WishlistResponseDTO;
-import br.com.clean.wishlist.application.wishlist.service.*;
+import br.com.clean.wishlist.application.wishlist.service.WishlistService;
 import br.com.clean.wishlist.domain.exception.NotFoundException;
 import br.com.clean.wishlist.domain.exception.ValidationException;
 import br.com.clean.wishlist.domain.validation.ValidationResult;

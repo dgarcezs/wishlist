@@ -2,7 +2,7 @@ package br.com.clean.wishlist.adapters.input.controller;
 
 import br.com.clean.wishlist.adapters.input.dto.RestResponseDTO;
 import br.com.clean.wishlist.application.wishlist.dto.WishlistResponseDTO;
-import br.com.clean.wishlist.application.wishlist.service.*;
+import br.com.clean.wishlist.application.wishlist.service.WishlistService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
