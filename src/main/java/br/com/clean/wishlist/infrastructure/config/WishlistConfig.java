@@ -8,7 +8,6 @@ import br.com.clean.wishlist.domain.repository.WishlistRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 
 @Configuration
 public class WishlistConfig {
@@ -22,7 +21,6 @@ public class WishlistConfig {
   }
 
   @Bean
-  @Primary
   public WishlistConfigurationProvider wishlistConfigurationProvider(
       WishlistConfigurationSpringDataMongoDB wishlistConfigurationSpringDataMongoDB,
       @Value("${wishlist.validation.max-products-per-wishlist}") int defaultMaxProductPerWishlist) {
