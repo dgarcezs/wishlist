@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import br.com.clean.wishlist.adapters.output.persistence.mongodb.WishlistConfigurationSpringDataMongoDB;
+import br.com.clean.wishlist.adapters.output.persistence.mongodb.WishlistSpringDataMongoDB;
 import br.com.clean.wishlist.application.wishlist.dto.WishlistResponseDTO;
 import br.com.clean.wishlist.application.wishlist.service.WishlistService;
 import br.com.clean.wishlist.application.wishlist.service.core.DefaultWishlistService;
@@ -19,12 +21,22 @@ import io.cucumber.java.en.When;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
+import org.springframework.boot.data.mongodb.autoconfigure.DataMongoAutoConfiguration;
+import org.springframework.boot.mongodb.autoconfigure.MongoAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 @SpringBootTest
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+@ActiveProfiles("test")
+@ImportAutoConfiguration(exclude = {MongoAutoConfiguration.class, DataMongoAutoConfiguration.class})
 public class WishlistSteps {
+
+  @MockitoBean private WishlistSpringDataMongoDB wishlistSpringDataMongoDB;
+
+  @MockitoBean
+  private WishlistConfigurationSpringDataMongoDB wishlistConfigurationSpringDataMongoDB;
 
   private final WishlistRepository wishlistRepository = mock(WishlistRepository.class);
   private final WishlistService wishlistService =
