@@ -6,28 +6,27 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "wishlist_configuration")
 public class WishlistConfigurationDocument {
 
-  @Id
-  private String key;
-  private String value;
+  @Id private String configKey;
+  private String configValue;
 
-  public WishlistConfigurationDocument(String key, String value) {
-    this.key = key;
-    this.value = value;
+  public WishlistConfigurationDocument(String configKey, String configValue) {
+    this.configKey = configKey;
+    this.configValue = configValue;
   }
 
-  public String getKey() {
-    return key;
+  public String getConfigKey() {
+    return configKey;
   }
 
-  public void setKey(String key) {
-    this.key = key;
+  public void setConfigKey(String configKey) {
+    this.configKey = configKey;
   }
 
-  public String getValue() {
-    return value;
+  public String getConfigValue() {
+    return configValue;
   }
 
-  public void setValue(String value) {
-    this.value = value;
+  public void setConfigValue(String configValue) {
+    this.configValue = configValue;
   }
 }

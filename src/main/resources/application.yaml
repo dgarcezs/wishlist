@@ -20,3 +20,5 @@ spring:
 wishlist:
   validation:
     max-products-per-wishlist: 10
+  repository:
+    type: mongodb

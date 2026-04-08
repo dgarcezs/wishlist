@@ -1,14 +1,10 @@
-package br.com.clean.wishlist.adapters.output.mongodb;
+package br.com.clean.wishlist.adapters.output.persistence.mongodb;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import br.com.clean.wishlist.adapters.output.persistence.mongodb.WishlistDocument;
-import br.com.clean.wishlist.adapters.output.persistence.mongodb.WishlistDocumentMapper;
-import br.com.clean.wishlist.adapters.output.persistence.mongodb.WishlistRepositoryMongoDB;
-import br.com.clean.wishlist.adapters.output.persistence.mongodb.WishlistSpringDataMongoDB;
 import br.com.clean.wishlist.domain.model.Wishlist;
 import br.com.clean.wishlist.domain.vo.ProductId;
 import java.util.HashSet;

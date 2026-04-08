@@ -3,9 +3,11 @@ package br.com.clean.wishlist.adapters.output.persistence.mongodb;
 import br.com.clean.wishlist.domain.model.Wishlist;
 import br.com.clean.wishlist.domain.repository.WishlistRepository;
 import java.util.Optional;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@ConditionalOnProperty(value = "wishlist.repository.type", havingValue = "mongodb")
 public class WishlistRepositoryMongoDB implements WishlistRepository {
 
   private final WishlistSpringDataMongoDB wishlistSpringDataMongoDB;
